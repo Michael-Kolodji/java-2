@@ -3,17 +3,18 @@ package challenge;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
-
-import challenge.models.Jogador;
 
 public class Main {
 
 	public List<State> listThe10largestStatesInBrazil() {
-		return new ArrayList<>();
+		List<State> lisState = lisState();
+		
+		lisState.sort(Comparator.comparing(State::getExtensao).reversed());
+		
+		return lisState.subList(0, 10);
 	}
 	
 	public List<State> lisState() {
@@ -28,19 +29,16 @@ public class Main {
 			while ((line = br.readLine()) != null) {
 
 				String[] register = line.split(cvsSplitBy);
-				if (!register[0].contains("ID")) {
 
-					
-
-					State jogador = new State();
-					list.add(jogador);
-				}
+				State jogador = new State(register[0], register[1]);
+				jogador.setExtensao(Double.valueOf(register[2]));
+				list.add(jogador);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
-		return null;
+		return list;
 	}
 
 
